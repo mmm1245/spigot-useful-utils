@@ -1,0 +1,10 @@
+main: com.github.mmm1245.usefulutils.Main
+version: 1.0.0
+name: Useful Utils
+api-version: 1.16
+commands:
+    ser:
+    deser:
+    test:
+    gui:
+    holo:
