@@ -3,6 +3,7 @@ package com.github.mmm1245.usefulutils;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,6 +15,8 @@ import com.github.mmm1245.usefulutils.gui.GUI;
 import com.github.mmm1245.usefulutils.gui.GUIFactory;
 import com.github.mmm1245.usefulutils.gui.IOnSlotClick;
 import com.github.mmm1245.usefulutils.items.ItemGen;
+import com.github.mmm1245.usefulutils.items.custom.CustomItem;
+import com.github.mmm1245.usefulutils.items.custom.CustomItemRegistry;
 import com.github.mmm1245.usefulutils.listeners.GUIListener;
 import com.github.mmm1245.usefulutils.listeners.PlayerLogEvent;
 import com.github.mmm1245.usefulutils.serialization.ItemSerializer;
@@ -96,6 +99,23 @@ public class Main extends JavaPlugin{
 		if(label.equals("holo")) {
 			PlayerLogEvent.holohram.setText("zmena");
 			PlayerLogEvent.holohram.update(pla);
+			return true;
+		}
+		if(label.equals("item") && (args.length == 1 || args.length == 2)) {
+			if(!pla.isOp()) {
+				pla.sendMessage(ChatColor.RED + "You must be server operator to execute this command");
+				return true;
+			}
+			CustomItem item = CustomItemRegistry.get(args[0]);
+			if(item == null) {
+				pla.sendMessage(ChatColor.RED + "Item " + args[0] + " doesn't exist");
+				return true;
+			}
+			if(args.length == 1) {
+				pla.getInventory().addItem(item.create());
+			} else {
+				pla.getInventory().addItem(item.create(Integer.valueOf(args[1])));
+			}
 			return true;
 		}
 		return false;
